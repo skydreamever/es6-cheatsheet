@@ -2,6 +2,7 @@
 
 A cheatsheet containing ES2015 [ES6] tips, tricks, best practices and code
 snippet examples for your day to day workflow. Contributions are welcome!
+为该版本添加一些中文注释
 
 ## Table of Contents
 
@@ -39,7 +40,9 @@ function getFood(food) {
 
 getFood(false); // undefined
 ```
+//这个是javascript是一种弱语言，浏览器会逐句解释，使得在预解析到var snack = 'Meow Mix';为期申请的内存，但是由于没有执行if (food)，因此值被变成了为undefined
 
+//下面的let就避免了这种情况
 However, observe what happens when we replace `var` using `let`:
 
 ```javascript
@@ -176,7 +179,7 @@ Person.prototype.prefixName = function (arr) {
     return arr.map(character => this.name + character);
 };
 ```
-
+map能很好地保护this，而不被arr的替换掉
 > **Best Practice**: Use **Arrow Functions** whenever you need to preserve the
 lexical value of `this`.
 
@@ -242,6 +245,7 @@ In ES6, we now have access to a terser implementation:
 ```
 
 ### Template Literals
+####这个感觉还是很厉害的
 
 Using **Template Literals**, we can now construct strings that have special
 characters in them without needing to escape them explicitly.
@@ -353,7 +357,7 @@ console.log(father); // 'anakin'
 <sup>[(back to table of contents)](#table-of-contents)</sup>
 
 ## Modules
-
+将一些原本在CommonJS等语法之直接引用到了es6特性中
 Prior to ES6, we used libraries such as [Browserify](http://browserify.org/)
 to create modules on the client-side, and [require](https://nodejs.org/api/modules.html#modules_module_require_id)
 in **Node.js**. With ES6, we can now directly use modules of all types
@@ -542,7 +546,7 @@ function logArguments(...args) {
 ```
 
 ### Named Parameters
-
+这个可以跟Default Parameters对比着来看，实际上实现形式是相同的，前面的是单个参数值，这里是类似于字典的参数类型定义默认值
 One of the patterns in ES5 to handle named parameters was to use the **options
 object** pattern, adopted from jQuery.
 
@@ -580,6 +584,7 @@ In ES5, we could find the max of values in an array by using the `apply` method 
 ```javascript
 Math.max.apply(null, [-1, 100, 9001, -32]); // 9001
 ```
+//apply函数中的第一个参数为函数所属对象，通常为当前页面(this)。第二个参数为传入到函数中的参数数组
 
 In ES6, we can now use the spread operator to pass an array of values to be used as
 parameters to a function:
@@ -601,7 +606,7 @@ let places = ['Miami', ...cities, 'Chicago']; // ['Miami', 'San Francisco', 'Los
 
 Prior to ES6, we implemented Classes by creating a constructor function and
 adding properties by extending the prototype:
-
+//吐槽一下，这个简单太多了，主要是子类难写
 ```javascript
 function Person(name, age, gender) {
     this.name   = name;
@@ -677,7 +682,8 @@ beginners and allows us to write cleaner code.
 
 Symbols have existed prior to ES6, but now we have a public interface to using
 them directly. Symbols are immutable and unique and can be used as keys in any hash.
-
+ES6 Symbols也是一个集，但它的元素既不是字符串也不是对象。它是ES6的新成员：第七种基本类型。
+实际上他就是一个变量，Symbol(description)里面的description是对变量的描述而已
 ### Symbol( )
 
 Calling `Symbol()` or `Symbol(description)` will create a unique symbol that cannot be looked up
@@ -710,7 +716,7 @@ Symbol.for('foo') === Symbol.for('foo') // true
 A common use case for Symbols, and in particular with `Symbol.for(key)` is for interoperability. This can be 
 achieved by having your code look for a Symbol member on object arguments from third parties that contain some 
 known interface. For example:
-
+这是一个symbol的相通性的引用，但是我还没有具体了解透
 ```javascript
 function reader(obj) {
     const specialRead = Symbol.for('specialRead');
@@ -760,6 +766,8 @@ specific property names:
 > getOwnProperty({ hasOwnProperty: 'Hah, overwritten'}, 'Pwned');
 > TypeError: Property 'hasOwnProperty' is not a function
 ```
+getOwnProperty获取一个对象的指定属性的属性描述符副本，hasOwnProperty检查是否有该属性
+彻底看不懂了
 
 Actual **Maps** allow us to `set`, `get` and `search` for values (and much more).
 
@@ -869,6 +877,7 @@ el = null;
 
 value = map.get(el); // undefined
 ```
+//这给我的感觉怎么是你get一个null肯定啥也不返回啊！！！
 
 As shown above, once the object is is destroyed by the garbage collector,
 the WeakMap will automatically remove the key-value pair which was identified
@@ -944,6 +953,8 @@ var fetchJSON = function(url) {
 
 We can also **parallelize** Promises to handle an array of asynchronous
 operations by using `Promise.all()`:
+//其他的就看懂了这个例子，先这样吧
+
 
 ```javascript
 var urls = [
